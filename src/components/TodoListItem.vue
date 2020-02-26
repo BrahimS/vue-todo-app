@@ -5,13 +5,17 @@
       <h6
         class="card-subtitle"
         :class="overdueCss"
-        v-if="item.dueDate"
-      >{{dueDateLabel}} : {{formattedDate}}</h6>
+        v-if="item.dueDate && !item.completed"
+      >
+        {{ dueDateLabel }} : {{ formattedDate }}
+      </h6>
       <div class="todo-controls">
         <button
-          @click.prevent="item.completed = true"
+          @click.prevent="markCompleted"
           class="btn btn-sm btn-outline-success"
-        >Complete</button>
+        >
+          Complete
+        </button>
       </div>
     </div>
   </div>
@@ -37,6 +41,29 @@ export default {
         "text-uppercase": this.isOverdue
       };
     }
+  },
+  methods: {
+    markCompleted() {
+      this.item.completed = true;
+      this.$emit("item-completed");
+    }
   }
 };
 </script>
+<style>
+.card {
+  background: beige;
+  margin: 20px 0;
+}
+
+.card .todo-controls {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 5px;
+  visibility: hidden;
+}
+.card:hover .todo-controls {
+  visibility: visible;
+}
+</style>

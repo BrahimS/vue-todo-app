@@ -1,10 +1,39 @@
 <template>
-  <div>
+  <div class="list-container">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a
+          href="#"
+          class="nav-link"
+          :calss="{ active: filterType === false }"
+          @click.prevent="filterType = false"
+          >Incomplete</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          href="#"
+          class="nav-link"
+          :calss="{ active: filterType === true }"
+          @click.prevent="filterType = true"
+          >Complete</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          href="#"
+          class="nav-link"
+          :calss="{ active: filterType === undefined }"
+          @click.prevent="filterType = undefined"
+          >All</a
+        >
+      </li>
+    </ul>
     <TodoListItem
-      v-for="(item, index) in todos"
+      v-for="(item, index) in filteredItems"
       :key="index"
-      v-show="!item.completed"
       :item="item"
+      @item-completed="filtring()"
     />
   </div>
 </template>
@@ -13,24 +42,34 @@
 import TodoListItem from "./TodoListItem";
 export default {
   props: ["todos"],
-  components: { TodoListItem }
+  components: { TodoListItem },
+  data() {
+    return {
+      filteredItems: this.todos.filter(item => !item.completed),
+      filterType: false
+    };
+  },
+  watch: {
+    filterType() {
+      this.filtring();
+    }
+  },
+  methods: {
+    filtring() {
+      if (this.filterType === true) {
+        this.filteredItems = this.todos.filter(item => item.completed);
+      } else if (this.filterType === false) {
+        this.filteredItems = this.todos.filter(item => !item.completed);
+      } else {
+        this.filteredItems = this.todos;
+      }
+    }
+  }
 };
 </script>
 
-<style>
-.card {
-  background: beige;
-  margin: 20px 0;
-}
-
-.card .todo-controls {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding: 5px;
-  visibility: hidden;
-}
-.card:hover .todo-controls {
-  visibility: visible;
+<style scoped>
+.list-container {
+  margin-top: 15px;
 }
 </style>
