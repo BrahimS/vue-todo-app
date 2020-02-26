@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" :class="{ 'alert-success': item.completed }">
     <div class="card-body">
       <h5 class="card-title">{{ item.title }}</h5>
       <h6
@@ -11,6 +11,7 @@
       </h6>
       <div class="todo-controls">
         <button
+          v-if="!item.completed"
           @click.prevent="markCompleted"
           class="btn btn-sm btn-outline-success"
         >
@@ -45,14 +46,14 @@ export default {
   methods: {
     markCompleted() {
       this.item.completed = true;
+      this.$todos.markAsCompleted(this.item.id);
       this.$emit("item-completed");
     }
   }
 };
 </script>
-<style>
+<style scoped>
 .card {
-  background: beige;
   margin: 20px 0;
 }
 

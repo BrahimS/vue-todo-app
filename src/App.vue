@@ -1,45 +1,29 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
       <div class="container">
         <a href="" class="navbar-brand">TODO</a>
+        <div class="navbar-collapse">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <router-link class="nav-link" to="/">Home</router-link>
+            </li>
+            <li>
+              <router-link class="nav-link" to="/add">Add new Todo</router-link>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
     <div class="container">
-      <TodoList :todos="todos" />
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
-import TodoList from "./components/TodoList";
-
 export default {
   name: "App",
-  components: {
-    TodoList
-  },
-  data() {
-    return {
-      todos: [
-        {
-          title: "Setup environement",
-          dueDate: new Date(2019, 3, 26),
-          completed: true
-        },
-        {
-          title: "Create main list component",
-          dueDate: new Date(2020, 4, 26),
-          completed: false
-        },
-        { title: "Display TODO items" },
-        {
-          title: "Display Now",
-          dueDate: new Date(2020, 2, 25),
-          completed: false
-        }
-      ]
-    };
-  }
+  components: {}
 };
 </script>
